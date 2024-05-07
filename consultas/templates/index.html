@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/inicial.css"/>
+    <title>Lista de Estados</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Seja bem-vindo ao meu programa de listagem de Estados</h2>
+        <label for="regiaoSelect">Selecione a região:</label>
+        <select id="regiaoSelect">
+            <option value="">Todas</option>
+            <option value="Norte">Norte</option>
+            <option value="Nordeste">Nordeste</option>
+            <option value="Sudeste">Sudeste</option>
+            <option value="Sul">Sul</option>
+            <option value="Centro-Oeste">Centro-Oeste</option>
+        </select>
+        <label for="ordemSelect">Ordenar por:</label>
+        <select id="ordemSelect">
+            <option value="crescente">Crescente</option>
+            <option value="decrescente">Decrescente</option>
+        </select>
+        <button id="filtrarBtn">Filtrar Estados</button>
+        <ul id="listaEstados">
+            {% for estado in estados %}
+                <li>{{ estado }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="container">
+        <form id="formPlanilha" action="/criar_planilha" method="post">
+            <input type="hidden" id="regiaoSelecionada" name="regiao">
+            <button type="submit" id="criarPlanilhaBtn">Gerar Planilha</button>
+        </form>
+        <button id="downloadBtn" style="display: none;">Download Planilha</button>
+    </div>
+
+    <script>
+        document.getElementById("filtrarBtn").addEventListener("click", function() {
+            const regiaoSelecionada = document.getElementById("regiaoSelect").value;
+            const ordem = document.getElementById("ordemSelect").value;
+            fetch(`/filtrar_estados?regiao=${regiaoSelecionada}&ordem=${ordem}`)
+                .then(response => response.json())
+                .then(data => {
+                    const listaEstados = document.getElementById("listaEstados");
+                    listaEstados.innerHTML = "";
+                    data.forEach(estado => {
+                        const item = document.createElement("li");
+                        item.textContent = estado;
+                        listaEstados.appendChild(item);
+                    });
+                })
+                .catch(error => console.error("Erro ao filtrar estados:", error));
+        });
+    </script>
+</body>
+</html>
