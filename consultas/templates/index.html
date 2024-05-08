@@ -55,6 +55,11 @@
                 })
                 .catch(error => console.error("Erro ao filtrar estados:", error));
         });
+
+        document.getElementById("formPlanilha").addEventListener("submit", function(event) {
+            const regiaoSelecionada = document.getElementById("regiaoSelect").value;
+            document.getElementById("regiaoSelecionada").value = regiaoSelecionada;
+        });
     </script>
 </body>
 </html>

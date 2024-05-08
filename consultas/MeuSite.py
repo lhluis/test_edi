@@ -11,9 +11,9 @@ informacoes = requisicao.json()
 
 nomes_estados = [estado['nome'] for estado in informacoes]
 
-def criar_planilha_excel(dados_filtrados):
-    df = pd.DataFrame({'Estado': dados_filtrados})
-    nome_arquivo = 'planilha_estados.xlsx'
+def criar_planilha_excel(dados_completos):
+    df = pd.DataFrame(dados_completos, columns=['nome', 'regiao', 'sigla']) 
+    nome_arquivo = 'c:\\Users\\Cristina\\Desktop\\test_edi-main\\test_edi-main\\consultas\\planilha_estados.xlsx'
     df.to_excel(nome_arquivo, index=False)
     return nome_arquivo
 
@@ -38,9 +38,9 @@ def filtrar_estados():
 def criar_planilha():
     regiao_selecionada = request.form.get('regiao')
     if regiao_selecionada:
-        estados_filtrados = [estado['nome'] for estado in informacoes if estado['regiao'] == regiao_selecionada]
+        estados_filtrados = [estado for estado in informacoes if estado['regiao'] == regiao_selecionada]
     else:
-        estados_filtrados = nomes_estados
+        estados_filtrados = informacoes
     nome_arquivo = criar_planilha_excel(estados_filtrados)
     return redirect(url_for('download_planilha', nome_arquivo=nome_arquivo))
 
