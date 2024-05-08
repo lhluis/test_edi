@@ -1,7 +1,7 @@
-fazer ajuste nessa parte para fazer o dowload da planilha corretamente
+fazer ajuste nessa parte para fazer o dowload da planilha corretamente ---// esta parte esta em meusite.py
 
 
-// esta parte esta em meusite.py
+
 def criar_planilha_excel(dados_filtrados):
     df = pd.DataFrame({'Estado': dados_filtrados})
     nome_arquivo = 'planilha_estados.xlsx' 
